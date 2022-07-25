@@ -18,6 +18,7 @@
 }
 
 extern int raise(int signal);
+extern int ptrace(int request, pid_t pid, caddr_t addr, int data);
 extern void MSHookMemory(void *target, const void *data, size_t size);
 static const uint8_t RET[] = {
     0xC0, 0x03, 0x5F, 0xD6
@@ -26,4 +27,5 @@ static const uint8_t RET[] = {
 %ctor {
     %init;
     MSHookMemory((void *)raise, (void *)RET, 4);
+    MSHookMemory((void *)ptrace, (void *)RET, 4);
 }
